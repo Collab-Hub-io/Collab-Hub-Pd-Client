@@ -1,7 +1,7 @@
-// check client version (2.1.1)
-const io = require("socket.io-client"),
-EventEmitter = require('events');
-Events = new EventEmitter();
+// check client version (4.0.1)
+const io = require("socket.io-client")
+//   EventEmitter = require("events");
+// Events = new EventEmitter();
 
 ENVIRONMENT = {
   ARDUINO: "arduino",
@@ -13,7 +13,8 @@ ENVIRONMENT = {
 CH = {
   V1: "http://remote-collab.herokuapp.com",
   V2: "http://collab-hub-v2.herokuapp.com/hub",
-  LOCAL: "http://localhost:3000"
+  V3: "https://CH-testing.herokuapp.com/hub",
+  LOCAL: "http://localhost:3000",
 };
 
 //https://www.markhansen.co.nz/javascript-optional-parameters/
@@ -26,79 +27,29 @@ Collabclient = class Collabclient {
     this.namespace = options.namespace || "";
     // this.url = options.url || "http://localhost:3000";
     // this.url = options.url || `http://remote-collab.herokuapp.com`;
-    this.url = options.url || "http://collab-hub-v2.herokuapp.com/hub";
+    this.url = options.url || "https://CH-testing.herokuapp.com/hub";
     this.name = options.name || "";
     this.username = options.username || "";
     this.environment = options.environment || ENVIRONMENT.MAX;
 
+    console.log(this.url + this.namespace);
+    // this.socket = io.connect(this.url + this.namespace);
+    this.socket = io.connect(`https://CH-testing.herokuapp.com/hub`);
+
     // env specific
     if (this.environment == ENVIRONMENT.PD) {
-      const dgram = require("dgram");
-      this.recPort = options.recPort || 3002;
-      this.sendPort = options.sendPort || 3001;
-      const receiver = dgram.createSocket("udp4");
-      const sender = dgram.createSocket("udp4");
 
-      // receiver.bind({port: this.recPort, address: 'localhost'});
-
-      receiver.bind({
-        address: "localhost",
-        port: 3002,
-        exclusive: true,
-      });
-
-      // setup listening port from PD
-      receiver.on("listening", () => {
-        const address = receiver.address();
-        console.log(`client listening ${address.address}:${address.port}`);
-      });
-
-      // setup Event routing
-      receiver.on("message", (msg, rinfo) => {
-        console.log(
-          `server received MESSAGE: ${msg} from ${rinfo.address}:${rinfo.port}`
-        );
-        console.log(typeof msg);
-        msg = msg.toString("utf8").substring(0, msg.length - 2).split(" ");
-        console.log(msg);
-        if (Array.isArray(msg)) {
-          if (msg[0] == "event") {
-            console.log(`EVENT: ${msg[1]}`);
-            this.socket.emit("event", msg[1]);
-          }
-
-          if (msg[0] == "control") {
-            console.log(`CONTROL: ${msg[1]} - ${msg[2]}`);
-            let newControl = {
-              header: msg[1],
-              values: msg[2],
-            };
-            this.socket.emit("control", newControl);
-          }
-
-          // if(msg[0] == )
-        }
-      });
-
-      const message = String(
-        `Connected! to Collab-Hub Client. Send messages to Port ${this.sendPort}`
-      );
-      this.clientOut = dgram.createSocket("udp4");
-      this.clientOut.connect(this.sendPort, "localhost", (err) => {
-        console.log("sending message...");
-        this.clientOut.send(message, (err) => {
-          // this.clientOut.close();
-        });
-        // this.clientOut.send(message, 0, message.length);
+      //#region PD
+      this.client = new PDClient({
+        name : "PD", 
+        socket : this.socket, 
+        toClientMethod: this.toClient
       });
     }
 
-    console.log(this.url + this.namespace);
-    this.socket = io(this.url + this.namespace);
-
     console.log("name: " + this.name);
-
-    this.socket.on("connect", () => {
+    console.log("attempting to connected to CH server at " + this.url);
+    this.socket.on("serverMessage", () => {
       console.log(`connected - ${this.url}: ` + this.socket.id); // "G5p5..."
       this.socketid = this.socket.id;
     });
@@ -109,6 +60,11 @@ Collabclient = class Collabclient {
 
     // --------------------
     // Incoming from server
+
+    // Used to confirm username (not implemented yet)
+    this.socket.on("username", (...incoming) => {
+      //   max.outlet("username", incoming);
+    });
 
     // Used to confirm username (not implemented yet)
     this.socket.on("username", (...incoming) => {
@@ -162,7 +118,9 @@ Collabclient = class Collabclient {
 
     this.socket.on("event", (header) => {
       console.log(`Event occured! ${header}`);
-      this.clientOut.send(header, 0, header.length);
+      // parse for PD
+      this.clientOut.send(header.header, 0, header.header.length);
+      // this.clientOut.send(header, 0, header.length);
     });
 
     this.socket.on("events", (data) => {
@@ -191,6 +149,10 @@ Collabclient = class Collabclient {
     // --------------------
   }
 
+  toClient (data) {
+    console.log(`received data: ${data}`);
+  }
+
   GetSocketID() {
     console.log("my socketid : " + this.socketid);
     return this.socketid;
@@ -201,6 +163,96 @@ Collabclient = class Collabclient {
     this.socket.disconnect();
   }
 };
+
+
+// code specifically for PD
+class PDClient {
+  constructor (options){
+    const dgram = require("dgram");
+    const receiver = dgram.createSocket("udp4");
+    const sender = dgram.createSocket("udp4");
+
+    this.recPort = options.recPort || 3002;
+    this.sendPort = options.sendPort || 3001;
+
+    this.name = options.name || "";
+    this.socket = options.socket;
+
+    this.toClient = options.toClientMethod;
+    console.log('what is toclient: ' + this.toClient);
+
+    receiver.bind({
+      address: "localhost",
+      port: 3002,
+      exclusive: true,
+    });
+
+
+      // setup listening port from PD
+      receiver.on("listening", () => {
+        const address = receiver.address();
+        console.log(`CH-Cient listening at ${address.address}:${address.port}`);
+      });
+
+      // setup Event routing
+      receiver.on("message", (msg, rinfo) => {
+        console.log(
+          `CH-Client received MESSAGE: ${msg} from ${rinfo.address}:${rinfo.port}`
+        );
+        console.log(typeof msg);
+        msg = msg
+          .toString("utf8")
+          .substring(0, msg.length - 2)
+          .split(" ");
+        console.log(msg);
+
+        if (Array.isArray(msg)) {
+          // console.log("msg len:" + msg.length);
+          if (msg[0] === "push") {
+            let outgoing = { mode: "push" };
+            if (msg.length > 3) {
+              outgoing.target = msg[1];
+              outgoing.header = msg[2];
+              this.toClient({outgoing});
+            } else {
+              outgoing.target = msg[1];
+              outgoing.header = msg[2];
+              this.socket.emit("control", outgoing);
+            }
+          }
+        }
+      });
+
+      const message = String(
+        `Connected to Collab-Hub Client! You are using ${this.environment}. Send messages to Port ${this.recPort}`
+      );
+      this.clientOut = dgram.createSocket("udp4");
+      this.clientOut.connect(this.sendPort, "localhost", (err) => {
+        console.log("sending message...");
+        this.clientOut.send(message, (err) => {
+          // this.clientOut.close();
+        });
+        // this.clientOut.send(message, 0, message.length);
+      });
+
+
+    console.log(`loaded client for ${this.name}`);
+  }
+
+  toEnv = (options) => {
+
+  }
+
+  toServer = (options) => {
+
+  }
+
+  settings = (options) => {
+
+  }
+}
+
+
 
 ///
 module.exports = {

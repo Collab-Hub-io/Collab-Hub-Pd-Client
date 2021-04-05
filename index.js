@@ -1,5 +1,5 @@
-// const { ENVIRONMENT, CH, client } = require("./collabhubclient");
-require("./collabhubclient");
+const { ENVIRONMENT, CH, Collabclient } = require("./collabhubclient");
+// require("./collabhubclient");
 
 // var maxClient = new Collabclient({
 //   name: "MaxClient", 
@@ -9,8 +9,8 @@ require("./collabhubclient");
 
 var pdClient = new Collabclient({
   name: "PDClient", 
-  environment: ENVIRONMENT.MAX, 
-  url: CH.LOCAL, 
+  environment: ENVIRONMENT.PD, 
+  url: CH.V3, 
   namespace: "/hub"
 });
 

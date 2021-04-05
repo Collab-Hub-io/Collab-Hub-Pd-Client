@@ -28,7 +28,6 @@ socket.on('disconnect', () => {
 // --------------------
 // Outgoing
 
-
 // General
 
 max.addHandler('addUsername', newName => {
