@@ -66,11 +66,6 @@ Collabclient = class Collabclient {
       //   max.outlet("username", incoming);
     });
 
-    // Used to confirm username (not implemented yet)
-    this.socket.on("username", (...incoming) => {
-      //   max.outlet("username", incoming);
-    });
-
     // Generic messages from server
     this.socket.on("serverMessage", (...incoming) => {
       //   max.outlet("serverMessage", ...incoming);
@@ -149,8 +144,8 @@ Collabclient = class Collabclient {
     // --------------------
   }
 
-  toClient (data) {
-    console.log(`received data: ${data}`);
+  toClient (routing, data) {
+    console.log(`client received data: ${routing}, ${data}`);
   }
 
   GetSocketID() {
@@ -207,17 +202,18 @@ class PDClient {
         console.log(msg);
 
         if (Array.isArray(msg)) {
-          // console.log("msg len:" + msg.length);
+          console.log("msg len:" + msg.length);
           if (msg[0] === "push") {
             let outgoing = { mode: "push" };
             if (msg.length > 3) {
               outgoing.target = msg[1];
               outgoing.header = msg[2];
-              this.toClient({outgoing});
+              this.toClient("control", {outgoing});
             } else {
               outgoing.target = msg[1];
               outgoing.header = msg[2];
-              this.socket.emit("control", outgoing);
+              this.toClient("control", {outgoing});
+              // this.socket.emit("control", outgoing);
             }
           }
         }
