@@ -117,7 +117,7 @@ Collabclient = class Collabclient {
 
     this.socket.on("events", (data) => {
       console.log("Events manifest");
-      console.log(data);
+      console.dir(data);
     });
 
     this.socket.on("controlDump", (data) => {
