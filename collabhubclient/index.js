@@ -131,7 +131,7 @@ Collabclient = class Collabclient {
     });
 
     this.socket.on("chat", (data) => {
-      //   max.outlet("chat", incoming);
+      this.client.toEnv(MESSAGETYPE.CHAT, data);
     });
 
     // --------------------
@@ -269,6 +269,10 @@ class PDClient {
       case MESSAGETYPE.CONTROL:
         let msg = options.header + " " + options.values;
         this.clientOut.send(msg);
+        break;
+      case MESSAGETYPE.CHAT:
+        let chatMsg = "Chat: " + options.id + ": "+ options.chat;
+        this.clientOut.send(chatMsg);
         break;
     }
   };
