@@ -47,7 +47,7 @@ type ```node main.js``` -- this will start the Client using its default settings
    <img src="./img/for-readme/Pd-Client-Connection.png" alt="Connected to server messages">
 8. Open Pd-Example.pd
 9. The patch should automatically try to connect to client.
-10. You are now able to send and receive Events, Controls, and Chat to Collab-Hub.
+10. You are now able to send and receive Events, Controls, and Chat with Collab-Hub.
     
 
 DEMO VIDEO COMING SOON
