@@ -29,7 +29,7 @@ Below shows how data follows between Collab-Hub, the client, and Pd:
 
 ## Getting Started
 
-*An upcoming version of this client will a standalone application, where you will not have to start node instances or install other applications.*
+*An upcoming version of this client will be a standalone application, where you will not have to start node instances or install other applications.*
 
 1. Download the Collab-Hub-Pd-Client folder using the green Code button near the top of this page. Either choose "Download ZIP" or, if you're comfortable using git, you can clone the repo.
 2. This package includes the Pd externals of [```udpreceive```] and [```udpsend```] from the *iemnet* library.
