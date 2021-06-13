@@ -16,8 +16,8 @@ var file = new(static.Server)(__dirname);
 const client = new Collabclient({
   name: "PDClient", 
   environment: ENVIRONMENT.PD, 
-  url: CH.Testing, 
-  // url: CH.V3, 
+  // url: CH.Testing, 
+  url: CH.V3, 
   namespace: "/hub", 
   recPort: 3002,
   sendPort: 3001
