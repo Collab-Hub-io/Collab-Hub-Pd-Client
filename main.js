@@ -4,14 +4,19 @@
 // Authors: Nick Hwang, Tony T Marasco, Eric Sheffield
 // Contact: nickthwang@gmail.com
 // --------------------------------------------------------------------------
-
 const { ENVIRONMENT, CH, Collabclient } = require("./collabhubclient");
+
+var static = require('node-static');
+var http = require('http');
+
+var file = new(static.Server)(__dirname);
 
 // Instantiate the client with an environment (library)
 // future version, will have other libraries
-var client = new Collabclient({
+const client = new Collabclient({
   name: "PDClient", 
   environment: ENVIRONMENT.PD, 
+  // url: CH.Testing, 
   url: CH.V3, 
   namespace: "/hub", 
   recPort: 3002,
@@ -24,3 +29,8 @@ function disconnectClient(client){
   client = null;
   console.log("client disconnected");
 }
+
+
+http.createServer(function (req, res) {
+  file.serve(req, res);
+}).listen(3000);
