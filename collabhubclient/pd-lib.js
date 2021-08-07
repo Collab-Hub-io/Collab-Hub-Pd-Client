@@ -33,7 +33,7 @@ PDClient = class PDClient {
       // setup listening port from PD
       receiver.on("listening", () => {
         const address = receiver.address();
-        console.log(`CH-Cient listening at ${address.address}:${address.port}`);
+        console.log(`CH-Client listening at ${address.address}:${address.port}`);
       });
   
       // setup Event routing

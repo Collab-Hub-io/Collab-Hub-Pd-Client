@@ -28,7 +28,7 @@ CH = {
   V1: "http://remote-collab.herokuapp.com",
   V2: "http://collab-hub-v2.herokuapp.com",
   V3: "https://ch-server.herokuapp.com",
-  Testing: "https://CH-testing.herokuapp.com",
+  Testing: "https://ch-testing.herokuapp.com",
   LOCAL: "http://localhost:3000",
 };
 
