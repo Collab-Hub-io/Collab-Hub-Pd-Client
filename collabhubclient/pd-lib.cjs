@@ -8,7 +8,7 @@
 // --------------------------------------------------------------------------
 
 // PD (environment) library for Collab-Hub client for Server version 0.3.x
-PDClient = class PDClient {
+class PDClient {
     constructor(options) {
       const dgram = require("dgram");
       const receiver = dgram.createSocket("udp4");

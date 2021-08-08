@@ -5,34 +5,36 @@
 // Contact: nickthwang@gmail.com
 // --------------------------------------------------------------------------
 
-const io = require("socket.io-client");
+import { io } from "socket.io-client";
 // future versions will require other environment libraries (like OSC, P5.js, etc)
-const pd = require("./pd-lib.js");
+import { PDClient } from "./pd-lib.cjs";
+import { OSCClient } from "./osc-lib.js";
 
-MESSAGETYPE = {
+export const MESSAGETYPE = {
   EVENT: "event",
   CONTROL: "control",
   CHAT: "chat",
 };
 
-ENVIRONMENT = {
+export const ENVIRONMENT = {
   ARDUINO: "arduino",
   PD: "pd",
   MAX: "max",
   PROCESSING: "processing",
-  UNITY: "unity"
+  UNITY: "unity", 
+  OSC: "osc"
 };
 
 // most current server is V3
-CH = {
+export const CH = {
   V1: "http://remote-collab.herokuapp.com",
   V2: "http://collab-hub-v2.herokuapp.com",
   V3: "https://ch-server.herokuapp.com",
   Testing: "https://ch-testing.herokuapp.com",
-  LOCAL: "http://localhost:3000",
+  LOCAL: "http://localhost:3000"
 };
 
-Collabclient = class Collabclient {
+export class Collabclient {
   constructor(options) {
     // if no options use, use defaults
     var options = options || {};
@@ -48,13 +50,26 @@ Collabclient = class Collabclient {
     console.log(this.url + this.namespace);
     this.socket = io.connect(this.url + this.namespace);
 
-    // env specific
+    // env specific -- PD
     if (this.environment == ENVIRONMENT.PD) {
       //#region PD
       this.client = new PDClient({
         name: "PD",
         socket: this.socket,
-        toClientMethod: this.toClient,
+        toClient: this.toClient,
+        recPort: this.recPort,
+        sendPort: this.sendPort
+      });
+    }
+
+
+    // env specific -- OSC
+    if(this.environment == ENVIRONMENT.OSC) {
+      //#region OSC
+      this.client = new OSCClient({
+        name: "OSC",
+        socket: this.socket,
+        toClient: this.toClient,
         recPort: this.recPort,
         sendPort: this.sendPort
       });
@@ -101,9 +116,9 @@ Collabclient = class Collabclient {
   }
 };
 
-///
-module.exports = {
-  Collabclient,
-  ENVIRONMENT,
-  CH,
-};
+//
+// module.exports = {
+//   ENVIRONMENT
+// };
+
+// export default {Collabclient, ENVIRONMENT };
