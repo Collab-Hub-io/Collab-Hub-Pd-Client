@@ -119,7 +119,10 @@ export class OSCClient {
         this.clientOut.send(msg);
         break;
       case MESSAGETYPE.CONTROL:
-        msg = new Message("/"+options.header + " " + options.values);
+        msg = new Message("/"+options.header);
+        options.values.forEach((value, index) => {
+          msg.append(value);
+        });
         this.clientOut.send(msg);
         break;
       case MESSAGETYPE.CHAT:
