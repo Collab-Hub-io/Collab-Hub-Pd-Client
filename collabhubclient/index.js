@@ -83,7 +83,6 @@ export class Collabclient {
 
     // automatically register username
     if (this.username !== "") {
-      console.log('setting usernae ' + this.username);
       this.toClient("addUsername", { username: this.username });
     }
 

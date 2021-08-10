@@ -6,32 +6,31 @@
 //
 // Reference `PD Example.PD` for example patch to run in PD
 // --------------------------------------------------------------------------
-import { Server, Client, Message } from 'node-osc';
+import { Server, Client, Message } from "node-osc";
 import { MESSAGETYPE } from "./index.js";
 // const oscClient = require('node-osc');
 
 // OSC (environment) library for Collab-Hub client for Server version 0.3.x
 export class NORNSClient {
   constructor(options) {
-    
     this.recPort = options.recPort || 3002;
     this.sendPort = options.sendPort || 10111;
-    this.outIPAddress = options.ipAddress || '127.0.0.1';
+    this.outIPAddress = options.ipAddress || "127.0.0.1";
 
     this.name = options.name || "";
     this.socket = options.socket;
 
     this.toClient = options.toClientMethod;
 
-    const receiver = new Server(this.recPort, '127.0.0.1');
+    const receiver = new Server(this.recPort, "127.0.0.1");
     this.clientOut = new Client(this.outIPAddress, this.sendPort);
-    console.log('norns ip address ' + this.outIPAddress);
 
     // setup listening port from OSC app
     receiver.on("listening", () => {
       // const address = receiver.address();
+      console.log(`CH-Client (Norns-OSC) listening at ${this.recPort}`);
       console.log(
-        `CH-Client (Norns-OSC) listening at ${this.recPort}`
+        `CH-Client (Norns-OSC) sending to ${this.outIPAddress}:${this.sendPort}`
       );
     });
 
@@ -77,40 +76,41 @@ export class NORNSClient {
           this.toClient("observeAllEvents", outgoing);
           return;
         }
-      
-      // PUSH / PUBLISH routing modes currently not implemented
 
-          if (msg.length > 1) {
-            outgoing.mode = "push";
-            outgoing.target = "all";
-            outgoing.header = msg[0];
-            outgoing.values = msg.slice(1);
-            this.toClient("control", outgoing);
-            return;
-          } else {
-            outgoing.header = msg[0];
-            outgoing.target = "all";
-            this.toClient("event", outgoing);
-            return;
-          }
+        // PUSH / PUBLISH routing modes currently not implemented
+
+        if (msg.length > 1) {
+          outgoing.mode = "push";
+          outgoing.target = "all";
+          outgoing.header = msg[0];
+          outgoing.values = msg.slice(1);
+          this.toClient("control", outgoing);
+          return;
+        } else {
+          outgoing.mode = "push";
+          outgoing.target = "all";
+          outgoing.header = msg[0];
+          this.toClient("event", outgoing);
+          return;
         }
+      }
     });
 
-    console.log(`Loaded client for ${this.name}`);
+    console.log(`Loaded Norns client for ${this.name}`);
   }
 
   toEnv = (type, options) => {
     let msg;
-    if(options.header.substr(0,1) === "/") {
+    if (options.header.substr(0, 1) === "/") {
       options.header = options.header.substr(1);
     }
     switch (type) {
       case MESSAGETYPE.EVENT:
-        msg  = new Message("/"+options.header);
+        msg = new Message("/" + options.header);
         this.clientOut.send(msg);
         break;
       case MESSAGETYPE.CONTROL:
-        msg = new Message("/"+options.header);
+        msg = new Message("/" + options.header);
         options.values.forEach((value, index) => {
           msg.append(value);
         });
@@ -127,4 +127,3 @@ export class NORNSClient {
 // module.exports = {
 //   OSCClient,
 // };
-

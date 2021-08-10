@@ -61,7 +61,7 @@ const argv = yargs(hideBin(process.argv))
 })
 .alias("h", "help")
   .help()
-  .usage("Usage: node $0.js -sendPort s -recPorn r -username u").argv;
+  .argv;
 
 console.log(argv);
 
