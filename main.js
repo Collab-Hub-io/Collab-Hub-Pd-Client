@@ -13,13 +13,56 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 import http from "http";
 
-console.log(nstatic.Server);
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 var file = new nstatic.Server(__dirname);
 
-const argv = yargs(hideBin(process.argv)).argv;
+let _environments = Object.values(ENVIRONMENT);
+
+const argv = yargs(hideBin(process.argv))
+.options({
+  "Evironment": {
+    alias: "e",
+    description: "The environment to connect to",
+    choices: _environments,
+    default: "pd",
+    type: "string", 
+  },
+  "SendPort": {
+    alias: "s",
+    description: "The port to send data to",
+    type: "string"
+  },
+  "ReceivePort": {
+    alias: "r",
+    description: "The port to receive data from",
+    type: "string",
+  },
+  "Username": {
+    alias: "u",
+    description: "The username to connect with",
+    type: "string"
+  },
+  "IPAddress": {
+    alias: "i",
+    description: "The IP address to connect to",
+    type: "string"
+  }, 
+  "Url": {
+    alias: "u",
+    description: "The URL to connect to",
+    type: "string"
+  },
+  "Namespace": {
+    alias: "n",
+    description: "The namespace to connect to",
+    type: "string"
+  }
+})
+.alias("h", "help")
+  .help()
+  .usage("Usage: node $0.js -sendPort s -recPorn r -username u").argv;
+
 console.log(argv);
 
 if (argv._.includes("help")) {
@@ -27,53 +70,17 @@ if (argv._.includes("help")) {
   process.exit(0);
 }
 
-// const client = new Collabclient({
-//   name: "PDClient",
-//   environment: ENVIRONMENT.PD,
-//   // url: CH.Testing,
-//   url: CH.V3,
-//   namespace: "/hub",
-//   recPort: 3002,
-//   sendPort: 3001
-// });
+let options = {
+  environment: argv.Evironment || "pd",
+  url: argv.url || CH.V3,
+  namespace: argv.Namespace || "/hub",
+  recPort: argv.ReceivePort|| 3002,
+  sendPort: argv.SendPort || 3001,
+  username: argv.Username || "",
+  ipAddress: argv.IPAddress || "",
+};
 
-// const client = new Collabclient({
-//   name: "OSCClient",
-//   environment: ENVIRONMENT.OSC,
-//   // url: CH.Testing,
-//   url: CH.V3,
-//   namespace: "/hub",
-//   recPort: 3002,
-//   sendPort: 3001
-// });
-
-if (argv._.length < 1) {
-  console.log("--------- Starting default client: pd");
-
-  // Instantiate the client with an environment (library)
-  // future version, will have other libraries
-  const client = new Collabclient({
-    name: "PDClient",
-    environment: ENVIRONMENT.PD,
-    // url: CH.Testing,
-    url: CH.V3,
-    namespace: "/hub",
-    recPort: 3002,
-    sendPort: 3001,
-  });
-}
-
-if (argv._.includes("osc")) {
-  const client = new Collabclient({
-    name: "PDClient",
-    environment: ENVIRONMENT.OSC,
-    // url: CH.Testing,
-    url: CH.V3,
-    namespace: "/hub",
-    recPort: 3002,
-    sendPort: 3001,
-  });
-}
+const client = new Collabclient(options);
 
 // currently not used
 function disconnectClient(client) {

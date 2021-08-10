@@ -7,39 +7,38 @@
 // Reference `PD Example.PD` for example patch to run in PD
 // --------------------------------------------------------------------------
 import { Server, Client, Message } from 'node-osc';
-import { MESSAGETYPE } from "../collabhubclient/index.js";
+import { MESSAGETYPE } from "./index.js";
 // const oscClient = require('node-osc');
 
 // OSC (environment) library for Collab-Hub client for Server version 0.3.x
-export class OSCClient {
+export class NORNSClient {
   constructor(options) {
     
     this.recPort = options.recPort || 3002;
-    this.sendPort = options.sendPort || 3001;
+    this.sendPort = options.sendPort || 10111;
+    this.outIPAddress = options.ipAddress || '127.0.0.1';
 
     this.name = options.name || "";
     this.socket = options.socket;
 
     this.toClient = options.toClientMethod;
 
-    // this.clientOut = dgram.createSocket("udp4");
-    // this.clientOut.connect(this.sendPort, "localhost");
-
-    const receiver = new Server(this.recPort, "127.0.0.1");
-    this.clientOut = new Client("127.0.0.1", this.sendPort);
+    const receiver = new Server(this.recPort, '127.0.0.1');
+    this.clientOut = new Client(this.outIPAddress, this.sendPort);
+    console.log('norns ip address ' + this.outIPAddress);
 
     // setup listening port from OSC app
     receiver.on("listening", () => {
       // const address = receiver.address();
       console.log(
-        `CH-Client (OSC) listening at ${this.recPort}`
+        `CH-Client (Norns-OSC) listening at ${this.recPort}`
       );
     });
 
     // setup Event routing -- from environment to client
     receiver.on("message", (msg, rinfo) => {
       console.log(
-        `CH-Client (OSC) received MESSAGE: ${msg} from ${rinfo.address}:${rinfo.port}`
+        `CH-Client (Norns-OSC) received MESSAGE: ${msg} from ${rinfo.address}:${rinfo.port}`
       );
       console.dir(msg);
 
@@ -49,23 +48,8 @@ export class OSCClient {
       if (Array.isArray(msg)) {
         let outgoing = {};
 
-        if (msg[0] === "push") {
-          outgoing.mode = "push";
-          if (msg.length > 3) {
-            outgoing.target = msg[1];
-            outgoing.header = msg[2];
-            outgoing.values = msg.slice(3);
-            this.toClient("control", outgoing);
-            return;
-          } else {
-            outgoing.target = msg[1];
-            outgoing.header = msg[2];
-            this.toClient("event", outgoing);
-            return;
-          }
-        }
-
-        if (msg[0] === "chat") {
+        // handle key words first
+        if (msg[0] === "/chat") {
           msg.splice(0, 1);
           console.log("chat?");
           let newMsg = msg.join(" ");
@@ -76,35 +60,50 @@ export class OSCClient {
           return;
         }
 
-        if (msg[0] === "addUsername") {
+        if (msg[0] === "/addUsername") {
           outgoing.username = msg[1];
           this.toClient("addUsername", outgoing);
           return;
         }
 
-        if (msg[0] === "observeAllControl") {
+        if (msg[0] === "/observeAllControl") {
           outgoing.observe = msg[1];
           this.toClient("observeAllControl", outgoing);
           return;
         }
 
-        if (msg[0] === "observeAllEvents") {
+        if (msg[0] === "/observeAllEvents") {
           outgoing.observe = msg[1];
           this.toClient("observeAllEvents", outgoing);
           return;
         }
-      }
-    });
+      
+      // PUSH / PUBLISH routing modes currently not implemented
 
-    // const message = String(
-    //   `Connected to Collab-Hub Client! You are using ${this.environment}. Send messages to Port ${this.recPort}`
-    // );
+          if (msg.length > 1) {
+            outgoing.mode = "push";
+            outgoing.target = "all";
+            outgoing.header = msg[0];
+            outgoing.values = msg.slice(1);
+            this.toClient("control", outgoing);
+            return;
+          } else {
+            outgoing.header = msg[0];
+            outgoing.target = "all";
+            this.toClient("event", outgoing);
+            return;
+          }
+        }
+    });
 
     console.log(`Loaded client for ${this.name}`);
   }
 
   toEnv = (type, options) => {
     let msg;
+    if(options.header.substr(0,1) === "/") {
+      options.header = options.header.substr(1);
+    }
     switch (type) {
       case MESSAGETYPE.EVENT:
         msg  = new Message("/"+options.header);

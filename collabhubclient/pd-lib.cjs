@@ -16,7 +16,7 @@ class PDClient {
       this.recPort = options.recPort || 3002;
       this.sendPort = options.sendPort || 3001;
   
-      this.name = options.name || "";
+      this.name = options.name || "PD";
       this.socket = options.socket;
   
       this.toClient = options.toClientMethod;
@@ -33,13 +33,13 @@ class PDClient {
       // setup listening port from PD
       receiver.on("listening", () => {
         const address = receiver.address();
-        console.log(`CH-Client listening at ${address.address}:${address.port}`);
+        console.log(`CH-Client (PD) listening at ${address.address}:${address.port}`);
       });
   
       // setup Event routing
       receiver.on("message", (msg, rinfo) => {
         console.log(
-          `CH-Client received MESSAGE: ${msg} from ${rinfo.address}:${rinfo.port}`
+          `CH-Client (PD) received MESSAGE: ${msg} from ${rinfo.address}:${rinfo.port}`
         );
         console.log(typeof msg);
         msg = msg
