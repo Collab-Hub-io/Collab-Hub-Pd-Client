@@ -27,7 +27,7 @@ export const ENVIRONMENT = {
   NORNS: "norns",
 };
 
-// most current server is V3
+// most current server is V3.0
 export const CH = {
   V1: "http://remote-collab.herokuapp.com",
   V2: "http://collab-hub-v2.herokuapp.com",
@@ -65,6 +65,7 @@ export class Collabclient {
       recPort: this.recPort || "",
       sendPort: this.sendPort || "",
       ipAddress: this.ipAddress || "",
+      socket: this.socket
     }
 
     // env specific -- PD

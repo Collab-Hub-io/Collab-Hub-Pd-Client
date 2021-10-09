@@ -7,7 +7,23 @@
 // Reference `PD Example.PD` for example patch to run in PD
 // --------------------------------------------------------------------------
 
-// PD (environment) library for Collab-Hub client for Server version 0.3.x
+const ENVIRONMENT = {
+  ARDUINO: "arduino",
+  PD: "pd",
+  MAX: "max",
+  PROCESSING: "processing",
+  UNITY: "unity",
+  OSC: "osc",
+  NORNS: "norns",
+};
+
+const MESSAGETYPE = {
+  EVENT: "event",
+  CONTROL: "control",
+  CHAT: "chat",
+};
+
+// PD (environment) library for Collab-Hub client for Server version 0.3.1
 class PDClient {
     constructor(options) {
       const dgram = require("dgram");
