@@ -88,9 +88,3 @@ function disconnectClient(client) {
   client = null;
   console.log("client disconnected");
 }
-
-http
-  .createServer(function (req, res) {
-    file.serve(req, res);
-  })
-  .listen(3000);

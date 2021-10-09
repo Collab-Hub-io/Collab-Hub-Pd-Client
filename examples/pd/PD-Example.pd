@@ -1,4 +1,4 @@
-#N canvas 352 40 882 867 12;
+#N canvas 616 351 920 581 12;
 #X obj 13 751 fudiparse;
 #X obj 179 750 fudiformat;
 #X obj 94 63 route webEvent1;
@@ -41,7 +41,7 @@
 #X obj 179 177 vsl 15 50 0 100 0 0 empty empty empty 0 -9 0 10 -262144
 -1 -1 0 1;
 #X obj 300 177 vsl 15 50 0 100 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 4753 1;
 #X obj 421 177 vsl 15 50 0 100 0 0 empty empty empty 0 -9 0 10 -262144
 -1 -1 0 1;
 #X obj 10 118 r fromClient;
@@ -62,9 +62,9 @@
 #X obj 377 151 route value1;
 #X msg 574 311 Hello From PD User~!;
 #X obj 231 360 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 0 1;
+-1 -1 7000 1;
 #X obj 220 307 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 0 1;
+-1 -1 4900 1;
 #X text 386 609 Observe All Published Events and Pulished All Controls
 ;
 #X text 112 14 Receive Events;
@@ -90,17 +90,18 @@
 #X msg 173 332 push all pdSlider1 \$1;
 #X msg 12 307 push all webEvent1;
 #X msg 13 698 listen 3001;
-#X msg 168 697 connect localhost 3002;
 #X obj 168 778 netsend -u -b;
 #X obj 13 725 netreceive -u -b 3001;
+#X msg 491 258 electronClient;
+#X msg 168 697 connect localhost 8888;
 #X connect 0 0 30 0;
-#X connect 1 0 74 0;
+#X connect 1 0 73 0;
 #X connect 2 0 3 0;
 #X connect 4 0 71 0;
 #X connect 5 0 70 0;
 #X connect 6 0 7 0;
 #X connect 7 0 72 0;
-#X connect 7 1 73 0;
+#X connect 7 1 76 0;
 #X connect 9 0 8 0;
 #X connect 10 0 11 0;
 #X connect 11 0 27 0;
@@ -152,6 +153,7 @@
 #X connect 69 0 27 0;
 #X connect 70 0 27 0;
 #X connect 71 0 27 0;
-#X connect 72 0 75 0;
-#X connect 73 0 74 0;
-#X connect 75 0 0 0;
+#X connect 72 0 74 0;
+#X connect 74 0 0 0;
+#X connect 75 0 12 0;
+#X connect 76 0 73 0;
