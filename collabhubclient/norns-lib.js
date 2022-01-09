@@ -1,18 +1,16 @@
 // --------------------------------------------------------------------------
 // This is the javascript library required for interactive data retrieval from
-// the OSC-based Collab-Hub (client).
+// the OSC-based Collab-Hub (client) for Norns Environment.
 // Authors: Nick Hwang, Tony T Marasco, Eric Sheffield
 // Contact: nickthwang@gmail.com
 //
-// Reference `PD Example.PD` for example patch to run in PD
+// Reference: 
 // --------------------------------------------------------------------------
 import { Server, Client, Message } from "node-osc";
 import { MESSAGETYPE } from "./index.js";
 import WebSocket from "ws";
 
-const ws = new WebSocket('ws://localhost:5555/', ['bus.sp.nanomsg.org']);
-
-// OSC (environment) library for Collab-Hub client for Server version 0.3.x
+// Norns (environment) library for Collab-Hub client for Server version 0.3.x
 export class NORNSClient {
   constructor(options) {
     this.recPort = options.recPort || 3002;
@@ -24,12 +22,16 @@ export class NORNSClient {
 
     this.toClient = options.toClientMethod;
 
-    const receiver = new Server(this.recPort, "127.0.0.1");
+    this.receiver = new Server(this.recPort, "127.0.0.1");
     this.clientOut = new Client(this.outIPAddress, this.sendPort);
-    this.matron = new Client(55555, "127.0.0.1");
+
+    this.ws = new WebSocket("ws://localhost:5555/", ["bus.sp.nanomsg.org"]);
+    this.ws.on("error", () => {
+      console.log("WS Connection Error -- Unable to call Norn-Maiden Commands");
+    });
 
     // setup listening port from OSC app
-    receiver.on("listening", () => {
+    this.receiver.on("listening", () => {
       // const address = receiver.address();
       console.log(`CH-Client (Norns-OSC) listening at ${this.recPort}`);
       console.log(
@@ -38,7 +40,7 @@ export class NORNSClient {
     });
 
     // setup Event routing -- from environment to client
-    receiver.on("message", (msg, rinfo) => {
+    this.receiver.on("message", (msg, rinfo) => {
       console.log(
         `CH-Client (Norns-OSC) received MESSAGE: ${msg} from ${rinfo.address}:${rinfo.port}`
       );
@@ -120,7 +122,9 @@ export class NORNSClient {
           );
           if (options.values[0] === "load") {
             console.log(`Loading a script ${options.values[1]}`);
-            ws.send(`norns.script.load("code/${options.values[1]}/${options.values[1]}.lua")\n`);
+            ws.send(
+              `norns.script.load("code/${options.values[1]}/${options.values[1]}.lua")\n`
+            );
           }
           return;
         }
@@ -149,9 +153,3 @@ export class NORNSClient {
     }
   };
 }
-
-// module.exports = {
-//   OSCClient,
-// };
-
-////

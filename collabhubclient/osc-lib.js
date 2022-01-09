@@ -96,10 +96,6 @@ export class OSCClient {
       }
     });
 
-    // const message = String(
-    //   `Connected to Collab-Hub Client! You are using ${this.environment}. Send messages to Port ${this.recPort}`
-    // );
-
     console.log(`Loaded client for ${this.name}`);
   }
 
