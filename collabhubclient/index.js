@@ -99,6 +99,12 @@ export class Collabclient {
     // Incoming from server
     // current implementation received events, controls, and chat
 
+    this.socket.on("connection", () => {
+      this.client.toEnv(MESSAGETYPE.EVENT, {
+        header:"connection"
+      });
+    });
+
     this.socket.on("event", (data) => {
       this.client.toEnv(MESSAGETYPE.EVENT, data);
     });
