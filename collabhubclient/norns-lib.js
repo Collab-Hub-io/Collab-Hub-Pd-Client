@@ -1,3 +1,4 @@
+
 // --------------------------------------------------------------------------
 // This is the javascript library required for interactive data retrieval from
 // the OSC-based Collab-Hub (client).
@@ -8,6 +9,10 @@
 // --------------------------------------------------------------------------
 import { Server, Client, Message } from "node-osc";
 import { MESSAGETYPE } from "./index.js";
+// var shell = require('shelljs')
+import shelljs from 'shelljs';
+
+// console.dir(shelljs);
 // const oscClient = require('node-osc');
 
 // OSC (environment) library for Collab-Hub client for Server version 0.3.x
@@ -24,6 +29,7 @@ export class NORNSClient {
 
     const receiver = new Server(this.recPort, "127.0.0.1");
     this.clientOut = new Client(this.outIPAddress, this.sendPort);
+    this.matron = new Client(55555, "127.0.0.1");
 
     // setup listening port from OSC app
     receiver.on("listening", () => {
@@ -99,6 +105,7 @@ export class NORNSClient {
     console.log(`Loaded Norns client for ${this.name}`);
   }
 
+  // messages to send to NORNS
   toEnv = (type, options) => {
     let msg;
     if (options.header.substr(0, 1) === "/") {
@@ -110,7 +117,23 @@ export class NORNSClient {
         this.clientOut.send(msg);
         break;
       case MESSAGETYPE.CONTROL:
-        msg = new Message("/" + options.header);
+        if (options.header === 'norns' || options.header === 'NORNS'){
+          console.log(`Received a NORNS-APP related message: ${options.header} - ${options.values}`);
+          if(options.values[0] === 'load'){
+            console.log(`Loading a script ${options.values[1]}`);
+            shelljs.echo('hello tony marasco');
+            shelljs.exec(`norns.script.load("code/${options.values[1]}")`);
+            // shelljs.exec(`cd $HOME/foo/bar`);
+          }
+          return;
+        }
+      
+        //
+        if(options.header.substr(0,1) !== "/"){
+          msg = new Message("/" + options.header);  // add leading slash
+        } else {
+          msg = new Message(options.header);
+        }
         options.values.forEach((value, index) => {
           msg.append(value);
         });

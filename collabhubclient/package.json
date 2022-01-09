@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "node-osc": "^6.0.3",
+    "shelljs": "^0.8.5",
     "socket.io-client": "4.0.1"
   },
   "type": "module"
