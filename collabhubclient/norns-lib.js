@@ -1,4 +1,3 @@
-
 // --------------------------------------------------------------------------
 // This is the javascript library required for interactive data retrieval from
 // the OSC-based Collab-Hub (client).
@@ -10,7 +9,7 @@
 import { Server, Client, Message } from "node-osc";
 import { MESSAGETYPE } from "./index.js";
 // var shell = require('shelljs')
-import shelljs from 'shelljs';
+import shelljs from "shelljs";
 
 // console.dir(shelljs);
 // const oscClient = require('node-osc');
@@ -117,26 +116,34 @@ export class NORNSClient {
         this.clientOut.send(msg);
         break;
       case MESSAGETYPE.CONTROL:
-        if (options.header === 'norns' || options.header === 'NORNS'){
-          console.log(`Received a NORNS-APP related message: ${options.header} - ${options.values}`);
-          if(options.values[0] === 'load'){
+        if (options.header === "norns" || options.header === "NORNS") {
+          console.log(
+            `Received a NORNS-APP related message: ${options.header} - ${options.values}`
+          );
+          if (options.values[0] === "load") {
             console.log(`Loading a script ${options.values[1]}`);
-            shelljs.echo('hello tony marasco');
+            shelljs.echo("hello tony marasco");
             shelljs.exec(`norns.script.load("code/${options.values[1]}")`);
             // shelljs.exec(`cd $HOME/foo/bar`);
           }
           return;
         }
-      
+
         //
-        if(options.header.substr(0,1) !== "/"){
-          msg = new Message("/" + options.header);  // add leading slash
+        if (options.header.substr(0, 1) !== "/") {
+          msg = new Message("/" + options.header); // add leading slash
         } else {
           msg = new Message(options.header);
         }
-        options.values.forEach((value, index) => {
-          msg.append(value);
-        });
+
+        //
+        if (options.values.length > 0) {
+          options.values.forEach((value, index) => {
+            msg.append(value);
+          });
+        } else {
+          msg.append(options.values);
+        }
         this.clientOut.send(msg);
         break;
       case MESSAGETYPE.CHAT:
