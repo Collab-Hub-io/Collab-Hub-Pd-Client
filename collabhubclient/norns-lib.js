@@ -27,14 +27,16 @@ export class NORNSClient {
 
     this.ws = new WebSocket("ws://localhost:5555/", ["bus.sp.nanomsg.org"]);
 
-    this.ws.on("error", () => {
-      console.log("WS Connection Error -- Unable to send Norn-Maiden Commands");
+    this.ws.on("error", (e) => {
+      console.log("WS Connection Error -- Unable to send Norns-Maiden Commands");
+      console.log("WS Error: " + e.toString());
+      this.wsConnected = false;
     });
 
-    this.ws.on("connection", () => {
+    this.ws.on("open", () => {
       this.wsConnected = true;
       console.log(
-        "WS Connection Established -- Ready to send Norn-Maiden Commands"
+        "WS Connection Established -- Ready to send Norns-Maiden Commands"
       );
     });
 
@@ -131,7 +133,7 @@ export class NORNSClient {
           if (options.values[0] === "load") {
             console.log(`Loading a script ${options.values[1]}`);
             if (this.wsConnected) {
-              ws.send(
+              this.ws.send(
                 `norns.script.load("code/${options.values[1]}/${options.values[1]}.lua")\n`
               );
             }
