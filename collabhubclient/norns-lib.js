@@ -121,9 +121,6 @@ export class NORNSClient {
           if (options.values[0] === "load") {
             console.log(`Loading a script ${options.values[1]}`);
             ws.send(`norns.script.load("code/${options.values[1]}/${options.values[1]}.lua")\n`);
-            // shelljs.echo("hello tony marasco");
-            // shelljs.exec(`norns.script.load("/home/we/dust/code/${options.values[1]}/${options.values[1]}.lua")`);
-            // shelljs.exec(`cd $HOME/foo/bar`);
           }
           return;
         }
