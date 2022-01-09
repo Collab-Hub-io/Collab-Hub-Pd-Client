@@ -10,7 +10,7 @@ import { Server, Client, Message } from "node-osc";
 import { MESSAGETYPE } from "./index.js";
 import WebSocket from "ws";
 
-const ws = new WebSocket('ws://norns.local:5555/', ['bus.sp.nanomsg.org']);
+const ws = new WebSocket('ws://localhost:5555/', ['bus.sp.nanomsg.org']);
 
 // OSC (environment) library for Collab-Hub client for Server version 0.3.x
 export class NORNSClient {
