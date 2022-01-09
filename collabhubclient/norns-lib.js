@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 // --------------------------------------------------------------------------
 // This is the javascript library required for interactive data retrieval from
 // the OSC-based Collab-Hub (client).
@@ -8,11 +10,9 @@
 // --------------------------------------------------------------------------
 import { Server, Client, Message } from "node-osc";
 import { MESSAGETYPE } from "./index.js";
-// var shell = require('shelljs')
-import shelljs from "shelljs";
+import WebSocket from "ws";
 
-// console.dir(shelljs);
-// const oscClient = require('node-osc');
+const ws = new WebSocket('ws://norns.local:5555/', ['bus.sp.nanomsg.org']);
 
 // OSC (environment) library for Collab-Hub client for Server version 0.3.x
 export class NORNSClient {
@@ -122,8 +122,9 @@ export class NORNSClient {
           );
           if (options.values[0] === "load") {
             console.log(`Loading a script ${options.values[1]}`);
-            shelljs.echo("hello tony marasco");
-            shelljs.exec(`norns.script.load("code/${options.values[1]}")`);
+            ws.send(`norns.script.load("${options.values[1]}")\n`);
+            // shelljs.echo("hello tony marasco");
+            // shelljs.exec(`norns.script.load("/home/we/dust/code/${options.values[1]}/${options.values[1]}.lua")`);
             // shelljs.exec(`cd $HOME/foo/bar`);
           }
           return;
@@ -157,3 +158,5 @@ export class NORNSClient {
 // module.exports = {
 //   OSCClient,
 // };
+
+////
