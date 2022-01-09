@@ -91,7 +91,7 @@ export class Collabclient {
       "Attempting to connected to CH server at " + this.url + this.namespace
     );
     this.socket.on("serverMessage", () => {
-      console.log(`connected - ${this.url}: ` + this.socket.id);
+      console.log(`connected to a Collab-Hub Server: - ${this.url}: ` + this.socket.id);
       this.socketid = this.socket.id;
     });
 

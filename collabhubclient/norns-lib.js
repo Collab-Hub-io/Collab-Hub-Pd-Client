@@ -4,7 +4,7 @@
 // Authors: Nick Hwang, Tony T Marasco, Eric Sheffield
 // Contact: nickthwang@gmail.com
 //
-// Reference: 
+// Reference:
 // --------------------------------------------------------------------------
 import { Server, Client, Message } from "node-osc";
 import { MESSAGETYPE } from "./index.js";
@@ -26,8 +26,16 @@ export class NORNSClient {
     this.clientOut = new Client(this.outIPAddress, this.sendPort);
 
     this.ws = new WebSocket("ws://localhost:5555/", ["bus.sp.nanomsg.org"]);
+
     this.ws.on("error", () => {
-      console.log("WS Connection Error -- Unable to call Norn-Maiden Commands");
+      console.log("WS Connection Error -- Unable to send Norn-Maiden Commands");
+    });
+
+    this.ws.on("connection", () => {
+      this.wsConnected = true;
+      console.log(
+        "WS Connection Established -- Ready to send Norn-Maiden Commands"
+      );
     });
 
     // setup listening port from OSC app
@@ -122,9 +130,11 @@ export class NORNSClient {
           );
           if (options.values[0] === "load") {
             console.log(`Loading a script ${options.values[1]}`);
-            ws.send(
-              `norns.script.load("code/${options.values[1]}/${options.values[1]}.lua")\n`
-            );
+            if (this.wsConnected) {
+              ws.send(
+                `norns.script.load("code/${options.values[1]}/${options.values[1]}.lua")\n`
+              );
+            }
           }
           return;
         }
