@@ -21,6 +21,7 @@
   "homepage": "https://github.com/Collab-Hub-io/Collab-Hub-Pd-Client#readme",
   "dependencies": {
     "jquery": "^3.6.0",
+    "minimist": ">=0.2.1",
     "node-static": "0.7.11",
     "nodemon": "^2.0.7",
     "shelljs": "^0.8.5",
