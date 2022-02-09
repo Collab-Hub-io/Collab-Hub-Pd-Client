@@ -7,6 +7,8 @@
 // Reference `PD Example.PD` for example patch to run in PD
 // --------------------------------------------------------------------------
 
+// import dgram from 'dgram';
+
 const ENVIRONMENT = {
   ARDUINO: "arduino",
   PD: "pd",
@@ -27,7 +29,7 @@ const MESSAGETYPE = {
 class PDClient {
     constructor(options) {
       const dgram = require("dgram");
-      const receiver = dgram.createSocket("udp4");
+      this.receiver = dgram.createSocket("udp4");
   
       this.recPort = options.recPort || 3002;
       this.sendPort = options.sendPort || 3001;
@@ -39,25 +41,41 @@ class PDClient {
   
       this.clientOut = dgram.createSocket("udp4");
       this.clientOut.connect(this.sendPort, "localhost");
+
+      this.clientOut.on("connect", () => {
+        console.log("Connected to PD Environment, sending data at port " + this.sendPort);
+      });
+
+      this.clientOut.on("error", () => {
+        console.log(`\n Error connecting CH Client to PD Environment. Please check PD is running, listening at port ${this.sendPort}, and restart this client.`);
+      });
   
-      receiver.bind({
-        address: "localhost",
+      this.receiver.bind({
+        address: "127.0.0.01",
         port: this.recPort,
-        exclusive: true,
+        // exclusive: true,
       });
   
       // setup listening port from PD
-      receiver.on("listening", () => {
-        const address = receiver.address();
+      this.receiver.on("listening", () => {
+        const address = this.receiver.address();
         console.log(`CH-Client (PD) listening at ${address.address}:${address.port}`);
       });
   
+      this.receiver.on('error', (err) => {
+        console.log(`server error:\n${err.stack}`);
+        this.receiver.close();
+      });
+
+
       // setup Event routing
-      receiver.on("message", (msg, rinfo) => {
+      this.receiver.on("message", (msg, rinfo) => {
+        return;
         console.log(
           `CH-Client (PD) received MESSAGE: ${msg} from ${rinfo.address}:${rinfo.port}`
         );
         console.log(typeof msg);
+        
         msg = msg
           .toString("utf8")
           .substring(0, msg.length - 2)

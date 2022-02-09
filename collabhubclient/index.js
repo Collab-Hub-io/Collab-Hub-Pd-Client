@@ -27,7 +27,7 @@ export const ENVIRONMENT = {
   NORNS: "norns",
 };
 
-// most current server is V3.0
+// most current server is V3.2
 export const CH = {
   V1: "http://remote-collab.herokuapp.com",
   V2: "http://collab-hub-v2.herokuapp.com",
@@ -56,7 +56,7 @@ export class Collabclient {
     console.log(this.url + this.namespace);
     this.socket = io.connect(this.url + this.namespace);
 
-    // mandatory options components
+    // client options components
     let clientoptions = {
       toClientMethod: this.toClient, 
       name: this.name,

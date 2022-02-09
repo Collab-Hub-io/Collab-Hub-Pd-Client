@@ -1,4 +1,5 @@
-# Collab-Hub PD Client 0.3
+# Collab-Hub PD Client 0.3.2
+#### Updated 02/09/2022 - Nick
 
 <br/>
 
@@ -7,8 +8,6 @@
 <br/>
 
 ---
-### NIME WORKSHOP
-This version is used for the NIME 2021 Workshop. For the latest version of the PD-Client and more examples, please visit [https://github.com/Collab-Hub-io].
 
 ## Overview
 
@@ -34,23 +33,31 @@ Below shows how data follows between Collab-Hub, the client, and Pd:
 2. Download and install Node.js from https://nodejs.org.
 3. Download and install Pd from https://puredata.info.
 4. Navigate to the downloaded Collab-Hub-Pd-Client package folder. If you downloaded the package as a ZIP, then unzip it, and naviagate to that folder.
-5. From your operating system's Terminal/Command Prompt, <br/>
-type ```node main.js``` -- this will start the Client using its default settings: 
+5. Open ```Pd-Example.pd``` prior to connecting to the Collab-Hub Server.
+6. We've simplified the process to get started. We have default send and receive port values. Follow steps below to use the default ports (PD receives at ```3001```, send to ```3002```). If you would like to customize those ports, skip to the next section.
+7. From your operating system's Terminal/Command Prompt, <br/>
+type ```node run pd```. This will start the Client using its default settings: 
    - connecting to ```ch-server.herokuapp.com```
    - using a receive port of ```3002``` (Pd will SEND to this port)
    - using a send port of ```3001``` (Pd will RECEIVE at this port)
-7. From your Terminal/Command Prompt, you should a logged message of <br />
+8. From your Terminal/Command Prompt, you should see a logged message of <br />
    ``` connected - https://ch-server.herokuapp.com: ```
    signifying your connection to the Collab-Hub client. You might see other messages as well. Keep this window open, as you will be able to see messages from the server as you send/receive data. See image below.
    <img src="./img/for-readme/Pd-Client-Connection.png" alt="Connected to server messages">
-8. Open Pd-Example.pd
-9. The patch should automatically try to connect to client. Check the PD window for errors.
+9. The PD patch should automatically try to connect to client. Check the PD window for errors.
 10. You are now able to send and receive Events, Controls, and Chat with Collab-Hub.
-    
+11. You can test sending and receiving values now. If you want to test using our Web Interface, go to http://ch-server.herokuapp.com
+12. Webslider3 and WebEvent3 using 'Push' mode, and any value changes on the web interface should arrive to the PD environment without extra actions.  
+---
+## Customizing Details
+1. If you want to change the port values, instead of running ``` npm run pd ```, use the following line replacing the `RECPORT ` and `SENDPORT` with your port values: 
+2. `npm main.js -e pd -r RECPORT -s SENDPORT`
+3. You should see a similar ackowledgement that the Client running the CH-PD library at the ports you supplied is connect (see image below):
+   <img src="./img/for-readme/Pd-Client-Connection.png" alt="Connected to server messages">
 
 DEMO VIDEO COMING SOON
 
-<img src="./img/for-readme/PD-Example.png" alt="Demo Patch" height="500"/>
+<img src="./img/for-readme/PD-Example.png" alt="Demo Patch" width="500"/>
 
 <br/>
 

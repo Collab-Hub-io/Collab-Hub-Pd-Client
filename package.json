@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node main.js",
-    "watch": "nodemon"
+    "watch": "nodemon",
+    "pd": "node main.js -e pd -s 3001 -r 3002"
   },
   "repository": {
     "type": "git",

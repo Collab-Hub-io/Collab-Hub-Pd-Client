@@ -61,9 +61,8 @@ const argv = yargs(hideBin(process.argv))
 })
 .alias("h", "help")
   .help()
-  .argv;
-
-console.log(argv);
+  .argv
+  ;
 
 if (argv._.includes("help")) {
   console.log(yargs.help());
