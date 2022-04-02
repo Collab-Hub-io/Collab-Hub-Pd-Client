@@ -22,7 +22,10 @@
   "dependencies": {
     "jquery": "^3.6.0",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "minimist": ">=1.2.6",
+=======
+>>>>>>> parent of d224011 (updated minimist)
 =======
 >>>>>>> parent of d224011 (updated minimist)
     "node-static": "0.7.11",
