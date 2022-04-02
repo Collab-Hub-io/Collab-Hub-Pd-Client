@@ -64,7 +64,7 @@
 #X obj 231 360 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
 -1 -1 0 1;
 #X obj 220 307 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 0 1;
+-1 -1 2200 1;
 #X text 386 609 Observe All Published Events and Pulished All Controls
 ;
 #X text 112 14 Receive Events;
@@ -75,7 +75,7 @@
 #X text 386 281 Set Username;
 #X text 571 283 Send a Chat Message;
 #X msg 733 311 Do a Barrel Roll!;
-#X text 12 590 Connect to the CH-Client;
+#X text 11 575 Connect to the CH-Client;
 #X obj 83 633 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
 #X floatatom 478 174 5 0 0 0 - - -;
@@ -92,7 +92,7 @@
 #X msg 12 307 push all pdEvent1;
 #X msg 13 698 listen 3001;
 #X msg 168 697 connect localhost 3002;
-#X text 11 609;
+#X text 10 595 Please refer to the README.md in the root folder.;
 #X connect 0 0 30 0;
 #X connect 1 0 70 0;
 #X connect 2 0 3 0;
