@@ -21,7 +21,10 @@
   "homepage": "https://github.com/Collab-Hub-io/Collab-Hub-Pd-Client#readme",
   "dependencies": {
     "jquery": "^3.6.0",
+<<<<<<< HEAD
     "minimist": ">=1.2.6",
+=======
+>>>>>>> parent of d224011 (updated minimist)
     "node-static": "0.7.11",
     "nodemon": "^2.0.7",
     "optimist":  ">=0.6.0",

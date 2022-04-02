@@ -1,4 +1,4 @@
-#N canvas 154 24 1031 789 12;
+#N canvas 1 0 1031 789 12;
 #X obj 13 751 fudiparse;
 #X obj 179 750 fudiformat;
 #X obj 94 63 route webEvent1;
@@ -41,7 +41,7 @@
 #X obj 179 177 vsl 15 50 0 100 0 0 empty empty empty 0 -9 0 10 -262144
 -1 -1 0 1;
 #X obj 300 177 vsl 15 50 0 100 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 2793 1;
+-1 -1 0 1;
 #X obj 421 177 vsl 15 50 0 100 0 0 empty empty empty 0 -9 0 10 -262144
 -1 -1 0 1;
 #X obj 10 118 r fromClient;
@@ -78,7 +78,6 @@
 #X text 12 590 Connect to the CH-Client;
 #X obj 83 633 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
-#X text 11 609 Change the port numbers in Main.js lines 17 & 18;
 #X floatatom 478 174 5 0 0 0 - - -;
 #X obj 522 176 vsl 15 50 0 100 0 0 empty empty empty 0 -9 0 10 -262144
 -1 -1 0 1;
@@ -93,14 +92,15 @@
 #X msg 12 307 push all pdEvent1;
 #X msg 13 698 listen 3001;
 #X msg 168 697 connect localhost 3002;
+#X text 11 609;
 #X connect 0 0 30 0;
-#X connect 1 0 71 0;
+#X connect 1 0 70 0;
 #X connect 2 0 3 0;
-#X connect 4 0 73 0;
-#X connect 5 0 70 0;
+#X connect 4 0 72 0;
+#X connect 5 0 69 0;
 #X connect 6 0 7 0;
-#X connect 7 0 74 0;
-#X connect 7 1 75 0;
+#X connect 7 0 73 0;
+#X connect 7 1 74 0;
 #X connect 9 0 8 0;
 #X connect 10 0 11 0;
 #X connect 11 0 27 0;
@@ -125,15 +125,15 @@
 #X connect 29 0 43 0;
 #X connect 29 0 45 0;
 #X connect 29 0 47 0;
-#X connect 29 0 68 0;
+#X connect 29 0 67 0;
 #X connect 36 0 23 0;
 #X connect 36 0 25 0;
 #X connect 36 0 48 0;
 #X connect 36 0 20 0;
-#X connect 36 0 66 0;
+#X connect 36 0 65 0;
 #X connect 37 0 38 0;
 #X connect 38 0 27 0;
-#X connect 40 0 69 0;
+#X connect 40 0 68 0;
 #X connect 41 0 39 0;
 #X connect 43 0 17 0;
 #X connect 45 0 44 0;
@@ -146,12 +146,12 @@
 #X connect 57 0 12 0;
 #X connect 60 0 10 0;
 #X connect 62 0 7 0;
-#X connect 66 0 64 0;
-#X connect 66 0 65 0;
-#X connect 68 0 67 0;
+#X connect 65 0 63 0;
+#X connect 65 0 64 0;
+#X connect 67 0 66 0;
+#X connect 68 0 27 0;
 #X connect 69 0 27 0;
-#X connect 70 0 27 0;
-#X connect 72 0 0 0;
-#X connect 73 0 27 0;
-#X connect 74 0 72 0;
-#X connect 75 0 71 0;
+#X connect 71 0 0 0;
+#X connect 72 0 27 0;
+#X connect 73 0 71 0;
+#X connect 74 0 70 0;
