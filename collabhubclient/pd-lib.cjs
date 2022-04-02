@@ -70,7 +70,6 @@ class PDClient {
 
       // setup Event routing
       this.receiver.on("message", (msg, rinfo) => {
-        return;
         console.log(
           `CH-Client (PD) received MESSAGE: ${msg} from ${rinfo.address}:${rinfo.port}`
         );
