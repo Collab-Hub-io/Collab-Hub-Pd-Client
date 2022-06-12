@@ -160,7 +160,7 @@ export class NORNSClient {
         break;
       case MESSAGETYPE.CHAT:
         // let chatMsg = "Chat: " + options.id + ": " + options.chat;
-        // this.clientOut.send(chatMsg);
+        this.clientOut.send(chatMsg);
         break;
     }
   };
