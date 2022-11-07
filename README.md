@@ -1,5 +1,5 @@
 # Collab-Hub PD Client 0.3.2
-#### Updated 02/09/2022 - Nick
+#### Updated 011/07/2022 - Nick
 
 <br/>
 
@@ -36,7 +36,7 @@ Below shows how data follows between Collab-Hub, the client, and Pd:
 5. Open ```Pd-Example.pd``` prior to connecting to the Collab-Hub Server.
 6. We've simplified the process to get started. We have default send and receive port values. Follow steps below to use the default ports (PD receives at ```3001```, send to ```3002```). If you would like to customize those ports, skip to the next section.
 7. From your operating system's Terminal/Command Prompt, <br/>
-type ```node run pd```. This will start the Client using its default settings: 
+type ```npm run pd```. This will start the Client using its default settings: 
    - connecting to ```ch-server.herokuapp.com```
    - using a receive port of ```3002``` (Pd will SEND to this port)
    - using a send port of ```3001``` (Pd will RECEIVE at this port)
