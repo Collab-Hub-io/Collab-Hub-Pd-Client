@@ -1,72 +1,57 @@
-#N canvas 1 0 1031 789 12;
+#N canvas 54 29 934 485 12;
 #X obj 13 751 fudiparse;
 #X obj 179 750 fudiformat;
 #X obj 94 63 route webEvent1;
-#X obj 94 88 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X obj 12 286 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X floatatom 173 307 5 0 127 0 - - -;
+#X obj 94 88 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000;
+#X obj 12 286 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000;
+#X floatatom 173 307 5 0 127 0 - - - 0;
 #X obj 13 633 loadbang;
 #X obj 13 666 t b b;
-#X obj 326 88 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 326 88 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000;
 #X obj 326 63 route webEvent3;
 #X obj 574 342 list prepend chat;
-#X obj 391 379 route list;
+#X obj 391 376 route list;
 #X obj 391 339 list prepend addUsername;
 #X msg 391 311 Nick-PD;
 #X obj 429 666 list prepend observeAllEvents;
 #X msg 391 633 true;
-#X obj 211 88 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X obj 444 88 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 211 88 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000;
+#X obj 444 88 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000;
 #X obj 211 63 route webEvent2;
 #X obj 391 698 list prepend observeAllControl;
-#X obj 9 151 route webSlider1;
-#X floatatom 10 175 5 0 127 0 - - -;
-#X floatatom 132 175 5 0 0 0 - - -;
+#X obj 10 151 route webSlider1;
+#X floatatom 10 175 5 0 127 0 - - - 0;
+#X floatatom 132 175 5 0 0 0 - - - 0;
 #X obj 132 151 route webSlider2;
-#X floatatom 254 175 5 0 0 0 - - -;
+#X floatatom 254 175 5 0 0 0 - - - 0;
 #X obj 254 151 route webSlider3;
-#X floatatom 377 175 5 0 0 0 - - -;
-#X obj 13 501 send toClient;
+#X floatatom 377 175 5 0 0 0 - - - 0;
+#X obj 17 532 send toClient;
 #X obj 179 724 receive toClient;
 #X obj 10 17 r fromClient;
 #X obj 13 776 s fromClient;
 #X obj 10 62 print Msg:;
-#X obj 56 180 vsl 15 50 0 100 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
-#X obj 179 177 vsl 15 50 0 100 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
-#X obj 300 177 vsl 15 50 0 100 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
-#X obj 421 177 vsl 15 50 0 100 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
+#X obj 58 177 vsl 15 50 0 100 0 0 empty empty empty 0 -9 0 10 #fcfcfc #000000 #000000 0 1;
+#X obj 179 177 vsl 15 50 0 100 0 0 empty empty empty 0 -9 0 10 #fcfcfc #000000 #000000 0 1;
+#X obj 300 177 vsl 15 50 0 100 0 0 empty empty empty 0 -9 0 10 #fcfcfc #000000 #000000 0 1;
+#X obj 421 177 vsl 15 50 0 100 0 0 empty empty empty 0 -9 0 10 #fcfcfc #000000 #000000 0 1;
 #X obj 10 118 r fromClient;
-#X obj 20 332 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 20 332 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000;
 #X msg 20 353 push all pdEvent2;
 #X obj 391 751 send toClient;
-#X floatatom 183 357 5 0 127 0 - - -;
+#X floatatom 183 357 5 0 127 0 - - - 0;
 #X obj 391 725 route list;
 #X text 624 832 updated for Collab-Hub v0.3.0 - NH;
 #X obj 444 63 route espEvent;
-#X obj 554 88 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 554 88 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000;
 #X obj 554 63 route leBang;
-#X obj 647 88 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 647 88 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000;
 #X obj 647 63 route bang1;
 #X obj 377 151 route value1;
 #X msg 574 311 Hello From PD User~!;
-#X obj 231 360 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 0 1;
-#X obj 220 307 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 -262144
--1 -1 2200 1;
-#X text 386 609 Observe All Published Events and Pulished All Controls
-;
+#X obj 231 360 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 #fcfcfc #000000 #000000 0 1;
+#X obj 220 307 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 #fcfcfc #000000 #000000 0 1;
+#X text 386 609 Observe All Published Events and Pulished All Controls;
 #X text 112 14 Receive Events;
 #X text 110 117 Receive Control Data;
 #X text 42 281 Send Events;
@@ -76,14 +61,11 @@
 #X text 571 283 Send a Chat Message;
 #X msg 733 311 Do a Barrel Roll!;
 #X text 11 575 Connect to the CH-Client;
-#X obj 83 633 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X floatatom 478 174 5 0 0 0 - - -;
-#X obj 522 176 vsl 15 50 0 100 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
+#X obj 83 633 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000;
+#X floatatom 478 174 5 0 0 0 - - - 0;
+#X obj 522 176 vsl 15 50 0 100 0 0 empty empty empty 0 -9 0 10 #fcfcfc #000000 #000000 0 1;
 #X obj 478 150 route value2;
-#X obj 736 88 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 736 88 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000;
 #X obj 736 63 route bang2;
 #X msg 183 381 push all pdSlider2 \$1;
 #X msg 173 332 push all pdSlider1 \$1;
@@ -93,6 +75,41 @@
 #X msg 13 698 listen 3001;
 #X msg 168 697 connect localhost 3002;
 #X text 10 595 Please refer to the README.md in the root folder.;
+#N canvas 379 29 681 346 speedlim 1;
+#X obj 22 27 inlet;
+#X obj 20 305 outlet;
+#X obj 22 154 spigot 1;
+#X obj 75 27 r \$0-del;
+#X obj 75 59 t b b;
+#X msg 75 123 0;
+#X msg 115 123 1;
+#X obj 115 92 del \$1;
+#X obj 154 28 inlet;
+#X obj 74 243 s \$0-del;
+#X floatatom 213 466 5 0 0 0 - - - 0;
+#X floatatom 223 476 5 0 0 0 - - - 0;
+#X floatatom 233 486 5 0 0 0 - - - 0;
+#X obj 21 208 t list b;
+#X obj 21 181 list;
+#X obj 20 271 route list;
+#X connect 0 0 2 0;
+#X connect 2 0 14 0;
+#X connect 3 0 4 0;
+#X connect 4 0 5 0;
+#X connect 4 1 7 0;
+#X connect 5 0 2 1;
+#X connect 6 0 2 1;
+#X connect 7 0 6 0;
+#X connect 8 0 7 1;
+#X connect 13 0 15 0;
+#X connect 13 1 9 0;
+#X connect 14 0 13 0;
+#X connect 15 0 1 0;
+#X restore 29 464 pd speedlim;
+#X obj 287 433 loadbang;
+#X floatatom 287 482 8 0 0 0 - - - 0;
+#X msg 287 458 30;
+#X obj 119 531 print speedlim:;
 #X connect 0 0 30 0;
 #X connect 1 0 70 0;
 #X connect 2 0 3 0;
@@ -103,7 +120,7 @@
 #X connect 7 1 74 0;
 #X connect 9 0 8 0;
 #X connect 10 0 11 0;
-#X connect 11 0 27 0;
+#X connect 11 0 76 0;
 #X connect 12 0 11 0;
 #X connect 13 0 12 0;
 #X connect 14 0 41 0;
@@ -132,7 +149,7 @@
 #X connect 36 0 20 0;
 #X connect 36 0 65 0;
 #X connect 37 0 38 0;
-#X connect 38 0 27 0;
+#X connect 38 0 76 0;
 #X connect 40 0 68 0;
 #X connect 41 0 39 0;
 #X connect 43 0 17 0;
@@ -149,9 +166,14 @@
 #X connect 65 0 63 0;
 #X connect 65 0 64 0;
 #X connect 67 0 66 0;
-#X connect 68 0 27 0;
-#X connect 69 0 27 0;
+#X connect 68 0 76 0;
+#X connect 69 0 76 0;
 #X connect 71 0 0 0;
-#X connect 72 0 27 0;
+#X connect 72 0 76 0;
 #X connect 73 0 71 0;
 #X connect 74 0 70 0;
+#X connect 76 0 80 0;
+#X connect 76 0 27 0;
+#X connect 77 0 79 0;
+#X connect 78 0 76 1;
+#X connect 79 0 78 0;
