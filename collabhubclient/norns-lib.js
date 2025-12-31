@@ -7,7 +7,7 @@
 // Reference:
 // --------------------------------------------------------------------------
 import { Server, Client, Message } from "node-osc";
-import { MESSAGETYPE } from "./index.js";
+import { MESSAGETYPE } from "./CH-Hub.js";
 import WebSocket from "ws";
 
 // Norns (environment) library for Collab-Hub client for Server version 0.3.x
@@ -28,7 +28,9 @@ export class NORNSClient {
     this.ws = new WebSocket("ws://localhost:5555/", ["bus.sp.nanomsg.org"]);
 
     this.ws.on("error", (e) => {
-      console.log("WS Connection Error -- Unable to send Norns-Maiden Commands");
+      console.log(
+        "WS Connection Error -- Unable to send Norns-Maiden Commands"
+      );
       console.log("WS Error: " + e.toString());
       this.wsConnected = false;
     });

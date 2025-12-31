@@ -29,10 +29,7 @@ export const ENVIRONMENT = {
 
 // most current server is V3.2
 export const CH = {
-  V1: "http://remote-collab.herokuapp.com",
-  V2: "http://collab-hub-v2.herokuapp.com",
-  V3: "https://ch-server.herokuapp.com",
-  Testing: "https://ch-testing.herokuapp.com",
+  DEFAULT: "https://server.collab-hub.io",
   LOCAL: "http://localhost:3000",
 };
 
@@ -43,8 +40,8 @@ export class Collabclient {
 
     // CH server details
     this.namespace = options.namespace || "/hub";
-    this.url = options.url || CH.V3;
-    
+    this.url = options.url || CH.DEFAULT;
+
     // Client and Environment details
     this.name = options.name || "CH-Client";
     this.username = options.username || "";
@@ -58,15 +55,15 @@ export class Collabclient {
 
     // client options components
     let clientoptions = {
-      toClientMethod: this.toClient, 
+      toClientMethod: this.toClient,
       name: this.name,
       username: this.username,
       environment: this.environment,
       recPort: this.recPort || "",
       sendPort: this.sendPort || "",
       ipAddress: this.ipAddress || "",
-      socket: this.socket
-    }
+      socket: this.socket,
+    };
 
     // env specific -- PD
     if (this.environment == ENVIRONMENT.PD) {
@@ -88,11 +85,12 @@ export class Collabclient {
     }
 
     console.log(
-      "Attempting to connected to CH server at " + this.url + this.namespace
+      "[PD Client] Attempting to connected to CH server at " +
+        this.url +
+        this.namespace
     );
-    this.socket.on("serverMessage", () => {
-      console.log(`connected to a Collab-Hub Server: - ${this.url}: ` + this.socket.id);
-      this.socketid = this.socket.id;
+    this.socket.on("serverMessage", (data) => {
+      console.log("[PD Client] Server message: " + data.message);
     });
 
     // --------------------
@@ -101,8 +99,13 @@ export class Collabclient {
 
     this.socket.on("connection", () => {
       this.client.toEnv(MESSAGETYPE.EVENT, {
-        header:"connection"
+        header: "connection",
       });
+      console.log(
+        `[PD Client] Connected to a Collab-Hub Server: - ${this.url}: ` +
+          this.socket.id
+      );
+      this.socketid = this.socket.id;
     });
 
     this.socket.on("event", (data) => {
@@ -120,18 +123,18 @@ export class Collabclient {
 
   // utility methods
   toClient(routing, data) {
-    console.log(`client received data: ${routing}, ${data}`);
+    console.log(`[PD Client] received data: ${routing}, ${data}`);
     console.dir(data);
     this.socket.emit(routing, data);
   }
 
   GetSocketID() {
-    console.log("my socketid : " + this.socketid);
+    console.log("[PD Client] my socketid : " + this.socketid);
     return this.socketid;
   }
 
   Disconnect() {
-    console.log(`Disconnecting...`);
+    console.log(`[PD Client]Disconnecting...`);
     this.socket.disconnect();
   }
 }

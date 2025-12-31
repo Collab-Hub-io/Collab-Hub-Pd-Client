@@ -6,14 +6,13 @@
 //
 // Reference `PD Example.PD` for example patch to run in PD
 // --------------------------------------------------------------------------
-import { Server, Client, Message } from 'node-osc';
-import { MESSAGETYPE } from "../collabhubclient/index.js";
+import { Server, Client, Message } from "node-osc";
+import { MESSAGETYPE } from "./CH-Hub.js";
 // const oscClient = require('node-osc');
 
 // OSC (environment) library for Collab-Hub client for Server version 0.3.x
 export class OSCClient {
   constructor(options) {
-    
     this.recPort = options.recPort || 3002;
     this.sendPort = options.sendPort || 3001;
 
@@ -31,9 +30,7 @@ export class OSCClient {
     // setup listening port from OSC app
     receiver.on("listening", () => {
       // const address = receiver.address();
-      console.log(
-        `CH-Client (OSC) listening at ${this.recPort}`
-      );
+      console.log(`CH-Client (OSC) listening at ${this.recPort}`);
     });
 
     // setup Event routing -- from environment to client
@@ -103,11 +100,11 @@ export class OSCClient {
     let msg;
     switch (type) {
       case MESSAGETYPE.EVENT:
-        msg  = new Message("/"+options.header);
+        msg = new Message("/" + options.header);
         this.clientOut.send(msg);
         break;
       case MESSAGETYPE.CONTROL:
-        msg = new Message("/"+options.header);
+        msg = new Message("/" + options.header);
         options.values.forEach((value, index) => {
           msg.append(value);
         });
@@ -124,4 +121,3 @@ export class OSCClient {
 // module.exports = {
 //   OSCClient,
 // };
-
