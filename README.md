@@ -61,7 +61,7 @@ _An upcoming version of this client will be a standalone application, where you 
 
    <img src="img/for-readme/CH-Message-Details.png">
 
-1. When receiving an events or controls, you construct your [route] object for the headers. You can include both event and control message headers in the same header.
+1. When receiving an events or controls, you construct your [route] object for the headers. You can include both event and control message headers in the same route object.
 
    <img src="img/Route-Messages.png" width="800">
 
