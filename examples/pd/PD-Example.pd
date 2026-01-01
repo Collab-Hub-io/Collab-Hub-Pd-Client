@@ -1,4 +1,4 @@
-#N canvas 73 22 1466 1030 12;
+#N canvas 0 29 1352 821 12;
 #X obj 17 788 fudiparse;
 #X obj 183 802 fudiformat;
 #X obj 20 81 route webEvent1;
@@ -13,12 +13,12 @@
 #X obj 400 441 route list;
 #X obj 400 374 list prepend addUsername;
 #X msg 400 353 Nick-PD;
-#X obj 565 747 list prepend observeAllEvents;
-#X msg 527 714 true;
+#X obj 540 746 list prepend observeAllEvents;
+#X msg 502 713 true;
 #X obj 137 106 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000;
 #X obj 370 106 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000;
 #X obj 137 81 route webEvent2;
-#X obj 527 779 list prepend observeAllControl;
+#X obj 502 778 list prepend observeAllControl;
 #X obj 20 178 route webSlider1;
 #X floatatom 20 202 5 0 127 0 - - - 0;
 #X floatatom 142 202 5 0 0 0 - - - 0;
@@ -37,9 +37,9 @@
 #X obj 20 145 r fromClient;
 #X obj 20 420 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000;
 #X msg 20 441 push all pdEvent2;
-#X obj 527 832 send toClient;
+#X obj 502 831 send toClient;
 #X floatatom 192 420 5 0 127 0 - - - 0;
-#X obj 527 806 route list;
+#X obj 502 805 route list;
 #X obj 370 81 route espEvent;
 #X obj 480 106 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000 #000000;
 #X obj 480 81 route leBang;
@@ -49,7 +49,7 @@
 #X msg 583 353 Hello From PD User~!;
 #X obj 240 420 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 #fcfcfc #000000 #000000 0 1;
 #X obj 229 353 hsl 128 15 0 127 0 0 empty empty empty -2 -8 0 10 #fcfcfc #000000 #000000 0 1;
-#X text 522 690 Observe All Published Events and Pulished All Controls;
+#X text 497 689 Observe All Published Events and Pulished All Controls;
 #X text 122 41 Receive Events;
 #X text 120 144 Receive Control Data;
 #X text 20 327 Send Events;
@@ -107,10 +107,10 @@
 #X floatatom 296 526 8 0 0 0 - - - 0;
 #X msg 296 502 30;
 #X obj 128 575 print speedlim:;
-#X text 769 946 updated for Collab-Hub v0.3.5 - NH;
+#X text 780 921 updated for Collab-Hub v0.3.5 - NH;
 #X obj 904 48 r fromClient;
 #X obj 904 76 print Msg:;
-#X text 769 909 Test sending and receiving data to the Webclient: https://server.collab-hub.io;
+#X text 780 884 Test sending and receiving data to the Webclient: https://server.collab-hub.io;
 #X text 14 646 Please refer to the README.md in the root folder for details changing your port values in the client.;
 #X connect 0 0 30 0;
 #X connect 1 0 68 0;
