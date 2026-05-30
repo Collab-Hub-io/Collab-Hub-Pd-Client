@@ -18,41 +18,51 @@ const __dirname = dirname(__filename);
 
 let _environments = Object.values(ENVIRONMENT);
 
-const argv = yargs(hideBin(process.argv))
+// Keep backward compatibility with historical single-dash usage like: -url http://...
+const normalizedArgv = hideBin(process.argv).map((arg) =>
+  arg === "-url" ? "--url" : arg,
+);
+
+const argv = yargs(normalizedArgv)
   .options({
-    Evironment: {
+    environment: {
       alias: "e",
       description: "The environment to connect to",
       choices: _environments,
       default: "pd",
       type: "string",
     },
-    SendPort: {
+    sendPort: {
       alias: "s",
       description: "The port to send data to",
       type: "string",
     },
-    ReceivePort: {
+    receivePort: {
       alias: "r",
       description: "The port to receive data from",
       type: "string",
     },
-    Username: {
+    username: {
       alias: "u",
       description: "The username to connect with",
       type: "string",
     },
-    IPAddress: {
+    password: {
+      alias: "p",
+      description: "The password to connect with",
+      type: "string",
+    },
+    ipAddress: {
       alias: "i",
       description: "The IP address to connect to",
       type: "string",
     },
-    Url: {
-      alias: "u",
+    url: {
+      alias: "l",
       description: "The URL to connect to",
       type: "string",
     },
-    Namespace: {
+    namespace: {
       alias: "n",
       description: "The namespace to connect to",
       type: "string",
@@ -66,13 +76,14 @@ if (argv._.includes("help")) {
 }
 
 const options = {
-  environment: argv.Evironment || "pd",
+  environment: argv.environment || "pd",
   url: argv.url || CH.DEFAULT,
-  namespace: argv.Namespace || "/hub",
-  recPort: argv.ReceivePort || 3002,
-  sendPort: argv.SendPort || 3001,
-  username: argv.Username || "",
-  ipAddress: argv.IPAddress || "",
+  namespace: argv.namespace || "/hub",
+  recPort: argv.receivePort || 3002,
+  sendPort: argv.sendPort || 3001,
+  username: argv.username || "",
+  password: argv.password || "",
+  ipAddress: argv.ipAddress || "",
 };
 
 const _ = new Collabclient(options);

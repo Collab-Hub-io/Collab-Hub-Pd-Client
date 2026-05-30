@@ -51,6 +51,43 @@ _An upcoming version of this client will be a standalone application, where you 
 12. `Webslider3` and `WebEvent3` using 'Push' mode, and any value changes on the web interface should arrive to the PD environment without extra actions.
 13. Close the client connection with Ctrl+C in your Terminal/Command Prompt.
 
+### Passwordless And Authenticated Server Test
+
+The Pd client now defaults to passwordless guest login when no password is provided.
+
+Guest mode with the default server:
+
+```bash
+npm run pd
+```
+
+Guest mode with an explicit username request:
+
+```bash
+node main.js -e pd -u optional_guest_name
+```
+
+Password mode with registered credentials:
+
+```bash
+node main.js -e pd -u your_username -p your_password
+```
+
+With no password, the Pd client will:
+
+1. Request a guest session through `/api/v1/auth/guest`
+2. Attach the returned access token to the Socket.IO connection
+3. Refresh the session automatically if the socket token expires
+4. Use a server-generated guest name if no username is supplied
+
+If both username and password are provided, the Pd client will instead:
+
+1. Log in through `/api/v1/auth/login`
+2. Attach the returned access token to the Socket.IO connection
+3. Refresh the session automatically if the socket token expires
+
+If the client connects to an older server that does not support `/api/v1/auth/guest`, it falls back to the older unauthenticated socket behavior.
+
 ---
 
 ## Constructing your own messages
@@ -93,7 +130,6 @@ Further details on the node/javascript files coming soon
 ## Changelog
 
 - #0.3.6
-
   - Moved Default Server to http://server.collab-hub.io, was previously https://ch-server.herokuapp.com
   - Anticipating 0.4.0 release of localized servers for RaspberryPis.
   - Moved Web Interface to http://server.collab-hub.io, should look different
